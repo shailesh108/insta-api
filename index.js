@@ -1,9 +1,14 @@
 var express = require('express')
 var axios = require('axios')
-var app = express()
+const http = require('http')
+const path = require('path')
 
-app.listen(8080, () => {
-  console.log('Server running on port 3000')
+var app = express()
+const server = http.Server(app)
+app.use('/', express.static(path.join(__dirname, 'testheroku')))
+
+app.listen(process.env.PORT || 8080, () => {
+  console.log('Server running on port 3000', process.env.PORT)
 })
 
 app.get('/getData', (req, res, next) => {
