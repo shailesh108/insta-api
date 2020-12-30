@@ -23,13 +23,17 @@ app.get('/getData', async (req, res, next) => {
     ]
   })
   const page = await browser.newPage()
-
-  await page.goto(`https://www.instagram.com/explore/tags/${tagId}/?__a=1`)
-  let items = await page.evaluate(() => {
-    let items = document.getElementsByTagName('pre')[0]
-    items = items && items.textContent
-    return JSON.parse(items || null)
-  })
+  try {
+    await page.goto(`https://www.instagram.com/explore/tags/${tagId}/?__a=1`)
+    let result = await page.evaluate(() => {
+      let items = document.getElementsByTagName('pre')[0]
+      items = items && items.textContent
+      return JSON.parse(items || null)
+    })
+    res.json(result)
+  } catch (e) {
+    console.log('error', e)
+    res.json({ error: JSON.stringify(e) })
+  }
   await browser.close()
-  res.json(items)
 })
