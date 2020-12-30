@@ -19,7 +19,8 @@ app.get('/getData', async (req, res, next) => {
     args: [
       '--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36',
       '--user-data-dir=/tmp/user_data/',
-      '--window-size=1200,800'
+      '--window-size=1200,800',
+      '--no-sandbox'
     ]
   })
   const page = await browser.newPage()
