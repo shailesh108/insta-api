@@ -26,11 +26,17 @@ app.get('/getData', async (req, res, next) => {
   const page = await browser.newPage()
   try {
     await page.goto(`https://www.instagram.com/explore/tags/${tagId}/?__a=1`)
+    let body = await page.evaluate(() => {
+      body = document.getElementsByTagName('body')[0]
+      return body.textContent
+    })
     let result = await page.evaluate(() => {
+      console.log(document.getElementsByTagName('body')[0])
       let items = document.getElementsByTagName('pre')[0]
       items = items && items.textContent
       return JSON.parse(items || null)
     })
+    console.log('body', body)
     res.json(result)
   } catch (e) {
     console.log('error', e)
